@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from https://estatepro-one.vercel.app/pages/maintenance/create-work-order.html by HTTrack Website Copier/3.x [XR&CO], Sat, 07 Nov 2026 14:26:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create Work Order | EstatePro</title>
+
+
+  <!-- Google Fonts: every font the font switcher can choose from -->
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;family=Nunito+Sans:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Poppins:wght@400;500;600;700&amp;family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
+
+
+  <!-- Bootstrap 5 CSS: grid, utilities and base components (local copy) -->
+  <link rel="stylesheet" href="../../assets/vendor/css/bootstrap.min.css">
+
+  <!-- Bootstrap Icons: icon font used across the whole dashboard (font files sit in assets/vendor/css/fonts) -->
+  <link rel="stylesheet" href="../../assets/vendor/css/bootstrap-icons.min.css">
+
+
+  <!-- main.css: all project styles in one file (design tokens and dark mode, layout, components, property pages) -->
+  <link rel="stylesheet" href="../../assets/css/main.css">
+
+
+  <!-- main.js: all project scripts in one file. It sits in the head on purpose, so the saved theme is applied before the page paints -->
+  <script src="../../assets/js/main.js"></script>
+</head>
+
+
+<body data-base="../../">
+
+
+
+  <!-- ======================================================================
+       SIDEBAR
+       ====================================================================== -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+
+    <a href="../../index.html" class="sidebar-brand">
+      <span class="sidebar-brand-icon"><i class="bi bi-buildings"></i></span>
+      <span class="sidebar-brand-text">EstatePro</span>
+    </a>
+
+    <nav class="sidebar-nav" aria-label="Sidebar menu">
+
+      <!-- MAIN -->
+      <div class="nav-heading">Main</div>
+      <a href="../../index.html" class="nav-link-item">
+        <i class="bi bi-grid-1x2"></i><span class="nav-label">Dashboard</span>
+      </a>
+     
+    
+
+
+
+      <!-- PROPERTIES -->
+      <a href="#menu-properties" class="nav-link-item has-sub collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu-properties">
+        <i class="bi bi-house-door"></i><span class="nav-label">Properties</span><i class="bi bi-chevron-down nav-arrow"></i>
+      </a>
+      <div class="collapse sub-menu" id="menu-properties">
+        <a href="../properties/property-list.html" class="sub-link">All Properties</a>
+        <a href="../properties/property-listings.html" class="sub-link">Property Listings</a>
+        <a href="../buildings/building-list.html" class="sub-link">Buildings</a>
+        <a href="../units/unit-list.html" class="sub-link">Units</a>
+        <a href="../units/vacant-units.html" class="sub-link">Vacant Units</a>
+        <a href="../units/occupied-units.html" class="sub-link">Occupied Units</a>
+        <a href="../properties/property-types.html" class="sub-link">Property Types</a>
+        <a href="../properties/amenities.html" class="sub-link">Amenities</a>
+      </div>
+
+
+
+      <!-- RENTALS -->
+      <a href="#menu-rentals" class="nav-link-item has-sub collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu-rentals">
+        <i class="bi bi-key"></i><span class="nav-label">Rentals</span><i class="bi bi-chevron-down nav-arrow"></i>
+      </a>
+      <div class="collapse sub-menu" id="menu-rentals">
+        <a href="../tenants/tenant-list.html" class="sub-link">Tenants</a>
+        <a href="../applications/application-list.html" class="sub-link">Applications</a>
+        <a href="../leases/lease-list.html" class="sub-link">Leases</a>
+        <a href="../rent/rent-collection.html" class="sub-link">Rent Collection</a>
+        <a href="../rent/rent-schedule.html" class="sub-link">Rent Schedule</a>
+        <a href="../rent/security-deposits.html" class="sub-link">Security Deposits</a>
+        <a href="../leases/lease-renewals.html" class="sub-link">Renewals</a>
+        <a href="../units/vacancies.html" class="sub-link">Vacancies</a>
+      </div>
+
+
+
+      <!-- SALES -->
+      <a href="#menu-sales" class="nav-link-item has-sub collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu-sales">
+        <i class="bi bi-tag"></i><span class="nav-label">Sales</span><i class="bi bi-chevron-down nav-arrow"></i>
+      </a>
+      <div class="collapse sub-menu" id="menu-sales">
+        <a href="../sales/sales-listings.html" class="sub-link">Sales Listings</a>
+        <a href="../buyers/buyer-list.html" class="sub-link">Buyers</a>
+        <a href="../sales/offers.html" class="sub-link">Offers</a>
+        <a href="../sales/deals.html" class="sub-link">Deals</a>
+        <a href="../sales/commissions.html" class="sub-link">Commissions</a>
+        <a href="../sales/closing.html" class="sub-link">Closing</a>
+      </div>
+
+
+
+      <!-- LEADS & CRM -->
+      <a href="#menu-crm" class="nav-link-item has-sub collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu-crm">
+        <i class="bi bi-person-lines-fill"></i><span class="nav-label">Leads &amp; CRM</span><span class="nav-badge">8</span><i class="bi bi-chevron-down nav-arrow"></i>
+      </a>
+      <div class="collapse sub-menu" id="menu-crm">
+        <a href="../leads/lead-list.html" class="sub-link">Leads</a>
+        <a href="../leads/inquiries.html" class="sub-link">Inquiries</a>
+        <a href="../leads/follow-ups.html" class="sub-link">Follow-ups</a>
+        <a href="../viewings/viewing-list.html" class="sub-link">Viewings</a>
+        <a href="../agents/agent-list.html" class="sub-link">Agents</a>
+        <a href="../leads/contacts.html" class="sub-link">Contacts</a>
+      </div>
+
+
+
+      <!-- MAINTENANCE -->
+      <a href="#menu-maintenance" class="nav-link-item has-sub" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="menu-maintenance">
+        <i class="bi bi-tools"></i><span class="nav-label">Maintenance</span><span class="nav-badge">27</span><i class="bi bi-chevron-down nav-arrow"></i>
+      </a>
+      <div class="collapse show sub-menu" id="menu-maintenance">
+        <a href="maintenance-requests.html" class="sub-link">Maintenance Requests</a>
+        <a href="work-orders.html" class="sub-link active">Work Orders</a>
+        <a href="../vendors/vendor-list.html" class="sub-link">Vendors</a>
+        <a href="inspections.html" class="sub-link">Inspections</a>
+        <a href="preventive-maintenance.html" class="sub-link">Preventive Maintenance</a>
+      </div>
+
+
+
+      <!-- FINANCE -->
+      <a href="#menu-finance" class="nav-link-item has-sub collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu-finance">
+        <i class="bi bi-wallet2"></i><span class="nav-label">Finance</span><i class="bi bi-chevron-down nav-arrow"></i>
+      </a>
+      <div class="collapse sub-menu" id="menu-finance">
+        <a href="../finance/payments.html" class="sub-link">Payments</a>
+        <a href="../finance/invoices.html" class="sub-link">Invoices</a>
+        <a href="../finance/expenses.html" class="sub-link">Expenses</a>
+        <a href="../finance/income.html" class="sub-link">Income</a>
+        <a href="../finance/deposits.html" class="sub-link">Deposits</a>
+        <a href="../finance/refunds.html" class="sub-link">Refunds</a>
+        <a href="../finance/late-fees.html" class="sub-link">Late Fees</a>
+        <a href="../finance/owner-statements.html" class="sub-link">Owner Statements</a>
+        <a href="../finance/agent-commissions.html" class="sub-link">Agent Commissions</a>
+      </div>
+
+
+
+      <!-- COMMUNICATION -->
+      <a href="#menu-communication" class="nav-link-item has-sub collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu-communication">
+        <i class="bi bi-chat-square-text"></i><span class="nav-label">Communication</span><span class="nav-badge">5</span><i class="bi bi-chevron-down nav-arrow"></i>
+      </a>
+      <div class="collapse sub-menu" id="menu-communication">
+        <a href="../communication/messages.html" class="sub-link">Messages</a>
+        <a href="../communication/email.html" class="sub-link">Email</a>
+        <a href="../communication/sms.html" class="sub-link">SMS</a>
+        <a href="../communication/notifications.html" class="sub-link">Notifications</a>
+        
+      </div>
+
+
+
+      <!-- REPORTS -->
+      <a href="#menu-reports" class="nav-link-item has-sub collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu-reports">
+        <i class="bi bi-bar-chart-line"></i><span class="nav-label">Reports</span><i class="bi bi-chevron-down nav-arrow"></i>
+      </a>
+      <div class="collapse sub-menu" id="menu-reports">
+        <a href="../reports/property-report.html" class="sub-link">Property Reports</a>
+        <a href="../reports/occupancy-report.html" class="sub-link">Occupancy Reports</a>
+        <a href="../reports/rental-report.html" class="sub-link">Rental Reports</a>
+        <a href="../reports/revenue-report.html" class="sub-link">Revenue Reports</a>
+        <a href="../reports/expense-report.html" class="sub-link">Expense Reports</a>
+        <a href="../reports/tenant-report.html" class="sub-link">Tenant Reports</a>
+        <a href="../reports/maintenance-report.html" class="sub-link">Maintenance Reports</a>
+        <a href="../reports/agent-report.html" class="sub-link">Agent Reports</a>
+        <a href="../reports/financial-report.html" class="sub-link">Financial Reports</a>
+      </div>
+
+
+
+      <!-- SETTINGS -->
+      <a href="#menu-settings" class="nav-link-item has-sub collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="menu-settings">
+        <i class="bi bi-gear"></i><span class="nav-label">Settings</span><i class="bi bi-chevron-down nav-arrow"></i>
+      </a>
+      <div class="collapse sub-menu" id="menu-settings">
+        <a href="../settings/general.html" class="sub-link">General</a>
+        <a href="../settings/company-profile.html" class="sub-link">Company Profile</a>
+        <a href="../settings/property-settings.html" class="sub-link">Property Settings</a>
+        <a href="../settings/rental-settings.html" class="sub-link">Rental Settings</a>
+        <a href="../settings/payment-settings.html" class="sub-link">Payment Settings</a>
+        <a href="../settings/notification-settings.html" class="sub-link">Notifications</a>
+        <a href="../settings/localization.html" class="sub-link">Localization</a>
+        <a href="../settings/roles-permissions.html" class="sub-link">Roles &amp; Permissions</a>
+        <a href="../settings/integrations.html" class="sub-link">Integrations</a>
+        <a href="../settings/appearance.html" class="sub-link">Appearance</a>
+      </div>
+
+
+
+    </nav>
+
+  </aside>
+
+  <!-- Dark overlay shown behind the sidebar on mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+
+  <!-- ======================================================================
+       MAIN AREA (header + page content)
+       ====================================================================== -->
+  <div class="app-main">
+
+
+    <!-- HEADER -->
+    <header class="app-header">
+
+      <!-- Sidebar toggle (collapses on desktop, opens the drawer on mobile) -->
+      <button class="icon-btn toggle-btn" id="sidebarToggle" type="button" aria-label="Toggle sidebar">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+
+
+
+      <!-- Global search: clicking the box or pressing Ctrl + K opens the search palette -->
+     
+
+
+
+      <div class="ms-auto d-flex align-items-center gap-1">
+
+
+        <!-- Quick add -->
+        <div class="dropdown me-1">
+          <button class="btn btn-primary btn-sm d-flex align-items-center gap-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-plus-lg"></i><span class="d-none d-sm-inline">Quick add</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end menu-rich">
+          <div class="menu-label">Create new</div>
+          <a class="dropdown-item menu-item" href="../properties/add-property.html">
+            <span class="menu-icon mi-primary"><i class="bi bi-house-add"></i></span>
+            <span class="menu-text"><span class="menu-title">Property</span><span class="menu-sub">List a new property</span></span>
+          </a>
+          <a class="dropdown-item menu-item" href="../tenants/add-tenant.html">
+            <span class="menu-icon mi-success"><i class="bi bi-person-plus"></i></span>
+            <span class="menu-text"><span class="menu-title">Tenant</span><span class="menu-sub">Register a new tenant</span></span>
+          </a>
+          <a class="dropdown-item menu-item" href="../leases/create-lease.html">
+            <span class="menu-icon mi-info"><i class="bi bi-file-earmark-plus"></i></span>
+            <span class="menu-text"><span class="menu-title">Lease</span><span class="menu-sub">Draft a lease agreement</span></span>
+          </a>
+          <a class="dropdown-item menu-item" href="../finance/record-payment.html">
+            <span class="menu-icon mi-violet"><i class="bi bi-cash-coin"></i></span>
+            <span class="menu-text"><span class="menu-title">Payment</span><span class="menu-sub">Record rent received</span></span>
+          </a>
+          <a class="dropdown-item menu-item" href="new-request.html">
+            <span class="menu-icon mi-warning"><i class="bi bi-wrench-adjustable"></i></span>
+            <span class="menu-text"><span class="menu-title">Maintenance request</span><span class="menu-sub">Report an issue</span></span>
+          </a>
+          <a class="dropdown-item menu-item" href="../viewings/schedule-viewing.html">
+            <span class="menu-icon mi-danger"><i class="bi bi-calendar-plus"></i></span>
+            <span class="menu-text"><span class="menu-title">Viewing</span><span class="menu-sub">Book a property visit</span></span>
+          </a>
+        </div>
+        </div>
+
+
+        <!-- Language -->
+        <div class="dropdown d-none d-sm-block">
+       
+          <div class="dropdown-menu dropdown-menu-end menu-rich lang-menu" id="languageMenu">
+          <div class="menu-label">Select language</div>
+          <button class="dropdown-item menu-item active" type="button" data-lang="en" data-flag="us">
+            <span class="flag flag-lg flag-us"></span>
+            <span class="menu-text"><span class="menu-title">English</span><span class="menu-sub">United States</span></span>
+            <i class="bi bi-check2 menu-check"></i>
+          </button>
+          <button class="dropdown-item menu-item" type="button" data-lang="es" data-flag="es">
+            <span class="flag flag-lg flag-es"></span>
+            <span class="menu-text"><span class="menu-title">Español</span><span class="menu-sub">España</span></span>
+            <i class="bi bi-check2 menu-check"></i>
+          </button>
+          <button class="dropdown-item menu-item" type="button" data-lang="fr" data-flag="fr">
+            <span class="flag flag-lg flag-fr"></span>
+            <span class="menu-text"><span class="menu-title">Français</span><span class="menu-sub">France</span></span>
+            <i class="bi bi-check2 menu-check"></i>
+          </button>
+          <button class="dropdown-item menu-item" type="button" data-lang="de" data-flag="de">
+            <span class="flag flag-lg flag-de"></span>
+            <span class="menu-text"><span class="menu-title">Deutsch</span><span class="menu-sub">Deutschland</span></span>
+            <i class="bi bi-check2 menu-check"></i>
+          </button>
+        </div>
+        </div>
+
+
+     
+
+
+  
+
+
+        <!-- Notifications -->
+        <div class="dropdown">
+          <button class="icon-btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Notifications">
+            <i class="bi bi-bell"></i><span class="notif-dot" id="notifDot"></span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end notice-menu p-0">
+            <div class="notice-head">
+              <strong>Notifications</strong>
+              <button class="btn btn-link btn-sm p-0" id="markAllRead" type="button">Mark all as read</button>
+            </div>
+            <a href="../finance/payments.html" class="notice-item unread">
+              <span class="thumb"><i class="bi bi-cash-coin"></i></span>
+              <div><div class="cell-main">Rent payment received</div><div class="cell-sub">Michael Anderson paid $1,850 for Unit 4B</div><div class="timeline-time">12 min ago</div></div>
+            </a>
+            <a href="../leases/lease-list.html" class="notice-item unread">
+              <span class="thumb"><i class="bi bi-file-earmark-text"></i></span>
+              <div><div class="cell-main">Lease expiring in 30 days</div><div class="cell-sub">Sophia Williams, Parkview Heights 12A</div><div class="timeline-time">1 hour ago</div></div>
+            </a>
+            <a href="maintenance-requests.html" class="notice-item">
+              <span class="thumb"><i class="bi bi-wrench-adjustable"></i></span>
+              <div><div class="cell-main">Maintenance request assigned</div><div class="cell-sub">Elite Plumbing, Riverside Apartments</div><div class="timeline-time">Yesterday</div></div>
+            </a>
+            <a href="../communication/notifications.html" class="notice-foot">View all notifications</a>
+          </div>
+        </div>
+
+
+        <!-- Messages -->
+        <div class="dropdown">
+          <button class="icon-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Messages">
+            <i class="bi bi-chat-dots"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end notice-menu p-0">
+            <div class="notice-head"><strong>Messages</strong></div>
+            <a href="../communication/messages.html" class="notice-item">
+              <span class="avatar">OP</span>
+              <div><div class="cell-main">Olivia Parker</div><div class="cell-sub">The viewing at Maple Grove is confirmed for 3 PM.</div><div class="timeline-time">5 min ago</div></div>
+            </a>
+            <a href="../communication/messages.html" class="notice-item">
+              <span class="avatar">DC</span>
+              <div><div class="cell-main">Daniel Carter</div><div class="cell-sub">Can I get a copy of my lease agreement?</div><div class="timeline-time">2 hours ago</div></div>
+            </a>
+            <a href="../communication/messages.html" class="notice-foot">Open inbox</a>
+          </div>
+        </div>
+
+
+     
+
+
+        <!-- Profile -->
+        <div class="dropdown ms-1">
+          <button class="profile-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account menu">
+            <span class="avatar">AR</span>
+            <span class="d-none d-lg-block text-start">
+              <span class="cell-main d-block">Alexander Reed</span>
+              <span class="cell-sub d-block">Super Admin</span>
+            </span>
+            <i class="bi bi-chevron-down d-none d-lg-block small"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end profile-menu">
+            <li class="px-3 py-2">
+              <div class="cell-main">Alexander Reed</div>
+              <div class="cell-sub">alexander@estatepro.com</div>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="../settings/profile.html"><i class="bi bi-person me-2"></i>My profile</a></li>
+            <li><a class="dropdown-item" href="../settings/account-settings.html"><i class="bi bi-gear me-2"></i>Account settings</a></li>
+            
+            
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="../../auth/login.html"><i class="bi bi-box-arrow-right me-2"></i>Sign out</a></li>
+          </ul>
+        </div>
+
+
+      </div>
+
+    </header>
+
+
+
+    <!-- PAGE CONTENT -->
+    <main class="app-content">
+
+      <!-- Breadcrumb and page title -->
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="../../index.html">Dashboard</a></li>
+          <li class="breadcrumb-item">Maintenance</li>
+          <li class="breadcrumb-item"><a href="work-orders.html">Work Orders</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Create Work Order</li>
+        </ol>
+      </nav>
+
+      <div class="page-head">
+        <div>
+          <h1 class="h4 mb-1">Create Work Order</h1>
+          <p class="text-secondary mb-0">Send a job to a vendor.</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2"></div>
+      </div>
+
+
+
+      <form class="needs-validation" novalidate data-success="Work order created." data-redirect="work-orders.html">
+
+        <section class="card card-pad mb-3">
+          <h2 class="form-section-title">The job</h2>
+          <p class="form-section-desc">What needs to be done and where.</p>
+          <div class="row g-3">
+            <div class="col-md-5">
+              <label class="form-label" for="prop">Property <span class="req">*</span></label>
+              <select class="form-select" id="prop" name="prop" required><option value="">Select...</option><option>The Grand Oak Residence</option><option>Parkview Heights</option><option>Riverside Apartments</option><option>Skyline Business Center</option><option>Maple Grove Villas</option><option>Central Plaza</option></select>
+              <div class="invalid-feedback">Please fill in this field.</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label" for="unit">Unit or area <span class="req">*</span></label>
+              <input type="text" class="form-control" id="unit" name="unit" value="" placeholder="" required>
+              <div class="invalid-feedback">Please fill in this field.</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="req">From request</label>
+              <select class="form-select" id="req" name="req"><option value="">Select...</option><option>MR-3105 Leaking pipe in the bathroom</option><option>MR-3104 Lobby air conditioning not cooling</option><option>MR-3101 Hallway light flickering</option><option>MR-3099 Office too warm, waiting for a part</option><option>MR-3096 Slow draining kitchen sink</option><option>MR-3094 Loose cabinet door</option></select>
+              <div class="invalid-feedback">Please fill in this field.</div>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="issue">Issue <span class="req">*</span></label>
+              <input type="text" class="form-control" id="issue" name="issue" value="" placeholder="e.g. Replace leaking bathroom pipe" required>
+              <div class="invalid-feedback">Please fill in this field.</div>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="inst">Instructions</label>
+              <textarea class="form-control" id="inst" name="inst" rows="3" placeholder="Access details, parts, photos to send back..."></textarea>
+              <div class="invalid-feedback">Please fill in this field.</div>
+            </div>
+          </div>
+        </section>
+        <section class="card card-pad mb-3">
+          <h2 class="form-section-title">Vendor, cost and date</h2>
+          <p class="form-section-desc">Who does it and by when.</p>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label" for="vendor">Vendor</label>
+              <select class="form-select" id="vendor" name="vendor"><option value="">Select...</option><option>Elite Plumbing</option><option>BrightSpark Electric</option><option>CoolAir HVAC</option><option>SparkClean Services</option><option>GreenLeaf Landscaping</option><option>ShieldGuard Security</option><option>Mason & Sons Handyman</option><option>Apex Roofing & Repair</option></select>
+              <div class="invalid-feedback">Please fill in this field.</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label" for="cost">Estimated cost</label>
+              <div class="input-group"><span class="input-group-text">$</span><input type="number" class="form-control" id="cost" name="cost" value="" placeholder=""></div>
+              <div class="invalid-feedback">Please fill in this field.</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label" for="due">Due date <span class="req">*</span></label>
+              <input type="date" class="form-control" id="due" name="due" value="" placeholder="" required>
+              <div class="invalid-feedback">Please fill in this field.</div>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label" for="prio">Priority <span class="req">*</span></label>
+              <select class="form-select" id="prio" name="prio" required><option value="">Select...</option><option>Low</option><option selected>Medium</option><option>High</option><option>Urgent</option></select>
+              <div class="invalid-feedback">Please fill in this field.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Save bar -->
+        <div class="form-actions">
+          <a href="work-orders.html" class="btn btn-outline-secondary">Cancel</a>
+          <button type="button" class="btn btn-outline-primary" data-save-draft>Save draft</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check2 me-1"></i>Create work order</button>
+        </div>
+
+      </form>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <span>&copy; 2026 EstatePro. All rights reserved.</span>
+      <span>Real Estate Property Management Admin Dashboard &middot; v1.0</span>
+    </footer>
+
+  </div>
+
+
+
+  <!-- ======================================================================
+       THEME CUSTOMIZER (offcanvas)
+       ====================================================================== -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="customizer" aria-labelledby="customizerTitle">
+
+    <div class="offcanvas-header border-bottom">
+      <h2 class="offcanvas-title h5" id="customizerTitle">Theme Customizer</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body">
+
+      <!-- Theme mode -->
+      <div class="setting-title">Theme mode</div>
+      <div class="btn-group w-100">
+        <button class="btn btn-outline-primary" data-setting="mode" data-value="light">Light</button>
+        <button class="btn btn-outline-primary" data-setting="mode" data-value="dark">Dark</button>
+        <button class="btn btn-outline-primary" data-setting="mode" data-value="system">System</button>
+      </div>
+
+      <!-- Primary color -->
+      <div class="setting-title">Primary color</div>
+      <div class="d-flex flex-wrap gap-2 align-items-center">
+        <span class="swatch" data-color="#2563eb" style="background:#2563eb" title="Blue"></span>
+        <span class="swatch" data-color="#4f46e5" style="background:#4f46e5" title="Indigo"></span>
+        <span class="swatch" data-color="#9333ea" style="background:#9333ea" title="Purple"></span>
+        <span class="swatch" data-color="#7c3aed" style="background:#7c3aed" title="Violet"></span>
+        <span class="swatch" data-color="#0891b2" style="background:#0891b2" title="Cyan"></span>
+        <span class="swatch" data-color="#0d9488" style="background:#0d9488" title="Teal"></span>
+        <span class="swatch" data-color="#16a34a" style="background:#16a34a" title="Green"></span>
+        <span class="swatch" data-color="#ea580c" style="background:#ea580c" title="Orange"></span>
+        <span class="swatch" data-color="#dc2626" style="background:#dc2626" title="Red"></span>
+        <span class="swatch" data-color="#db2777" style="background:#db2777" title="Pink"></span>
+        <input type="color" id="customColor" class="form-control form-control-color" value="#2563eb" title="Pick a custom color">
+      </div>
+
+      <!-- Font -->
+      <div class="setting-title">Font family</div>
+      <select class="form-select" id="fontSelect" aria-label="Font family">
+        <option>Inter</option>
+        <option>Plus Jakarta Sans</option>
+        <option>Manrope</option>
+        <option>Poppins</option>
+        <option>DM Sans</option>
+        <option>Roboto</option>
+        <option>Nunito Sans</option>
+      </select>
+
+      <div class="setting-title">Font size</div>
+      <div class="btn-group w-100">
+        <button class="btn btn-outline-primary" data-setting="fontSize" data-value="small">Small</button>
+        <button class="btn btn-outline-primary" data-setting="fontSize" data-value="default">Default</button>
+        <button class="btn btn-outline-primary" data-setting="fontSize" data-value="large">Large</button>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="setting-title">Sidebar theme</div>
+      <div class="btn-group w-100">
+        <button class="btn btn-outline-primary" data-setting="sidebar" data-value="light">Light</button>
+        <button class="btn btn-outline-primary" data-setting="sidebar" data-value="dark">Dark</button>
+        <button class="btn btn-outline-primary" data-setting="sidebar" data-value="primary">Primary</button>
+      </div>
+
+      <div class="setting-title">Sidebar state</div>
+      <div class="btn-group w-100">
+        <button class="btn btn-outline-primary" data-setting="sidebarState" data-value="expanded">Expanded</button>
+        <button class="btn btn-outline-primary" data-setting="sidebarState" data-value="collapsed">Collapsed</button>
+      </div>
+
+      <div class="setting-title">Sidebar position</div>
+      <div class="btn-group w-100">
+        <button class="btn btn-outline-primary" data-setting="sidebarPosition" data-value="fixed">Fixed</button>
+        <button class="btn btn-outline-primary" data-setting="sidebarPosition" data-value="static">Static</button>
+      </div>
+
+      <!-- Layout -->
+      <div class="setting-title">Container</div>
+      <div class="btn-group w-100">
+        <button class="btn btn-outline-primary" data-setting="container" data-value="fluid">Fluid</button>
+        <button class="btn btn-outline-primary" data-setting="container" data-value="boxed">Boxed</button>
+      </div>
+
+      <div class="setting-title">Header</div>
+      <div class="btn-group w-100">
+        <button class="btn btn-outline-primary" data-setting="header" data-value="fixed">Fixed</button>
+        <button class="btn btn-outline-primary" data-setting="header" data-value="static">Static</button>
+      </div>
+
+      <div class="setting-title">Density</div>
+      <div class="btn-group w-100">
+        <button class="btn btn-outline-primary" data-setting="density" data-value="comfortable">Comfortable</button>
+        <button class="btn btn-outline-primary" data-setting="density" data-value="compact">Compact</button>
+      </div>
+
+      <div class="setting-title">Border radius</div>
+      <div class="btn-group w-100">
+        <button class="btn btn-outline-primary" data-setting="radius" data-value="sharp">Sharp</button>
+        <button class="btn btn-outline-primary" data-setting="radius" data-value="medium">Medium</button>
+        <button class="btn btn-outline-primary" data-setting="radius" data-value="rounded">Rounded</button>
+      </div>
+
+      <!-- Presets -->
+      <div class="setting-title">Presets</div>
+      <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-sm btn-outline-secondary" data-preset="default">Default</button>
+        <button class="btn btn-sm btn-outline-secondary" data-preset="ocean">Ocean</button>
+        <button class="btn btn-sm btn-outline-secondary" data-preset="indigo">Indigo</button>
+        <button class="btn btn-sm btn-outline-secondary" data-preset="emerald">Emerald</button>
+        <button class="btn btn-sm btn-outline-secondary" data-preset="sunset">Sunset</button>
+        <button class="btn btn-sm btn-outline-secondary" data-preset="corporate">Corporate</button>
+        <button class="btn btn-sm btn-outline-secondary" data-preset="luxury">Luxury Real Estate</button>
+        <button class="btn btn-sm btn-outline-secondary" data-preset="darkestate">Dark Estate</button>
+      </div>
+
+    </div>
+
+    <div class="offcanvas-footer border-top p-3">
+      <button class="btn btn-outline-danger w-100" id="resetSettings" type="button">Reset settings</button>
+    </div>
+
+  </div>
+
+
+
+  <!-- ======================================================================
+       GLOBAL SEARCH PALETTE (opens with Ctrl + K)
+       ====================================================================== -->
+  <div class="modal fade" id="searchModal" tabindex="-1" aria-label="Global search" aria-hidden="true">
+    <div class="modal-dialog palette-dialog">
+      <div class="modal-content">
+        <div class="palette-input">
+          <i class="bi bi-search"></i>
+          <input type="text" id="paletteInput" placeholder="Search properties, tenants, agents, leases, invoices..." autocomplete="off" aria-label="Search">
+          <kbd>Esc</kbd>
+        </div>
+        <div class="palette-list" id="paletteList"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ======================================================================
+       TOAST AREA (messages are added here by showToast() in main.js)
+       ====================================================================== -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastBox"></div>
+
+
+
+  <!-- ======================================================================
+       SCRIPTS
+       ====================================================================== -->
+
+  <!-- Bootstrap bundle: offcanvas, tooltips, dropdowns, modals (includes Popper) -->
+  <script src="../../assets/vendor/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+<!-- Mirrored from https://estatepro-one.vercel.app/pages/maintenance/create-work-order.html by HTTrack Website Copier/3.x [XR&CO], Sat, 07 Nov 2026 14:26:46 GMT -->
+</html>

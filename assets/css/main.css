@@ -1,0 +1,2692 @@
+/* ==========================================================================
+   EstatePro - main.css
+   --------------------------------------------------------------------------
+   All project styles in one file, in the order they must load:
+
+     PART 1  Design tokens      colors, fonts, radius, density, dark mode
+     PART 2  Base and layout    sidebar, header, customizer panel
+     PART 3  Components         cards, badges, tables, tabs, dropdowns, toasts
+     PART 4  Property pages     property cards, details, galleries, forms
+     PART 5  Rental pages       tenant profile, rent calendar, collection bar, print
+     PART 6  Sales pages        deal pipeline board, closing checklist, buyer match bars
+     PART 7  Leads and agents   viewing week grid, agent performance bars
+     PART 8  Maintenance        urgent and violet badges, inspection checklist
+     PART 9  Finance            invoice, receipt and statement documents, print colors
+     PART 10 Communication      chat, email client, notification center
+     PART 11 Settings and system   login pages, error pages, skeletons, permissions, docs
+
+   Colors and sizes always come from the variables in PART 1.
+   Bootstrap and Bootstrap Icons are loaded separately from assets/vendor.
+   ========================================================================== */
+
+
+
+
+/* ##########################################################################
+   PART 1: DESIGN TOKENS
+   colors, fonts, radius, density, dark mode, sidebar themes
+   (this part used to be variables.css)
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Light theme (default)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Brand color. main.js (theme engine) overrides these when the user picks a new color */
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-soft: rgba(37, 99, 235, 0.1);   /* tinted background for badges, active links */
+  --primary-rgb: 37, 99, 235;               /* used for focus rings: rgba(var(--primary-rgb), .25) */
+
+  /* Surfaces */
+  --body-bg: #f6f7fb;
+  --card-bg: #ffffff;
+  --header-bg: #ffffff;
+
+  /* Text */
+  --text-color: #1f2937;
+  --muted-text: #6b7280;
+
+  /* Lines and borders */
+  --border-color: #e5e7eb;
+
+  /* Sidebar (dark by default, can be switched to light or primary) */
+  --sidebar-bg: #111827;
+  --sidebar-text: #d1d5db;
+  --sidebar-active-bg: rgba(255, 255, 255, 0.08);
+
+  /* Status colors */
+  --success-color: #16a34a;
+  --warning-color: #f59e0b;
+  --danger-color: #dc2626;
+  --info-color: #0ea5e9;
+
+  /* Shape and depth */
+  --border-radius: 12px;
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
+
+  /* Typography */
+  --font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-size-base: 0.9375rem;   /* 15px, the "Default" size option */
+
+  /* Density: padding used by cards and table cells */
+  --card-padding: 1.25rem;
+  --table-cell-y: 0.85rem;
+
+  /* Layout sizes */
+  --sidebar-width: 270px;
+  --sidebar-width-collapsed: 76px;
+  --header-height: 68px;
+  --boxed-width: 1320px;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   2. Dark theme
+   Hand-picked values, not just inverted colors. Surfaces get lighter as
+   they come forward so cards still feel layered on the page.
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --body-bg: #0b1120;
+  --card-bg: #131c2e;
+  --header-bg: #101828;
+
+  --text-color: #e5e9f0;
+  --muted-text: #94a3b8;
+  --border-color: #243049;
+
+  --sidebar-bg: #0a0f1c;
+  --sidebar-text: #aab4c5;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+
+  color-scheme: dark;   /* native form controls and scrollbars follow dark mode */
+}
+
+
+
+/* --------------------------------------------------------------------------
+   3. Border radius options (Customizer > Layout > Border Radius)
+   -------------------------------------------------------------------------- */
+[data-radius="sharp"]   { --border-radius: 4px; }
+[data-radius="medium"]  { --border-radius: 12px; }
+[data-radius="rounded"] { --border-radius: 20px; }
+
+
+
+/* --------------------------------------------------------------------------
+   4. Density options (Customizer > Layout > Density)
+   -------------------------------------------------------------------------- */
+[data-density="comfortable"] {
+  --card-padding: 1.25rem;
+  --table-cell-y: 0.85rem;
+}
+
+[data-density="compact"] {
+  --card-padding: 0.9rem;
+  --table-cell-y: 0.5rem;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   5. Font size options (Customizer > Font > Size)
+   -------------------------------------------------------------------------- */
+[data-font-size="small"]   { --font-size-base: 0.875rem; }
+[data-font-size="default"] { --font-size-base: 0.9375rem; }
+[data-font-size="large"]   { --font-size-base: 1.0625rem; }
+
+
+
+/* --------------------------------------------------------------------------
+   6. Sidebar theme options (Customizer > Sidebar > Theme)
+   "dark" is the default above, so only light and primary are listed here.
+   -------------------------------------------------------------------------- */
+[data-sidebar="light"] {
+  --sidebar-bg: #ffffff;
+  --sidebar-text: #4b5563;
+  --sidebar-active-bg: var(--primary-soft);
+}
+
+[data-sidebar="primary"] {
+  --sidebar-bg: var(--primary-color);
+  --sidebar-text: rgba(255, 255, 255, 0.85);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.16);
+}
+
+
+
+
+/* ##########################################################################
+   PART 2: BASE AND LAYOUT
+   base styles, Bootstrap overrides, sidebar, header, customizer panel
+   (this part used to be style.css)
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Base
+   -------------------------------------------------------------------------- */
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  background: var(--body-bg);
+  color: var(--text-color);
+}
+
+a { color: var(--primary-color); text-decoration: none; }
+a:hover { color: var(--primary-hover); }
+
+/* Visible keyboard focus everywhere (accessibility) */
+:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   2. Bootstrap overrides
+   Bootstrap hard-codes its own blue, so we point its pieces at our variable.
+   -------------------------------------------------------------------------- */
+.btn-primary {
+  --bs-btn-bg: var(--primary-color);
+  --bs-btn-border-color: var(--primary-color);
+  --bs-btn-hover-bg: var(--primary-hover);
+  --bs-btn-hover-border-color: var(--primary-hover);
+  --bs-btn-active-bg: var(--primary-hover);
+  --bs-btn-active-border-color: var(--primary-hover);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--primary-color);
+  --bs-btn-border-color: var(--primary-color);
+  --bs-btn-hover-bg: var(--primary-color);
+  --bs-btn-hover-border-color: var(--primary-color);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.2);
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.offcanvas { background: var(--card-bg); color: var(--text-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   3. Sidebar
+   -------------------------------------------------------------------------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  z-index: 1040;
+  transition: width 0.25s ease, transform 0.25s ease;
+}
+
+.sidebar-brand {
+  height: var(--header-height);
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.sidebar-brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--primary-color);
+  display: grid;
+  place-items: center;
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;          /* long menus scroll inside the sidebar */
+  padding: 0.5rem 0.75rem 1.5rem;
+}
+
+.nav-heading {
+  padding: 1.1rem 0.75rem 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.nav-link-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  color: var(--sidebar-text);
+  transition: background 0.15s ease;
+}
+
+.nav-link-item:hover { background: var(--sidebar-active-bg); color: #fff; }
+.nav-link-item.active { background: var(--sidebar-active-bg); color: #fff; font-weight: 600; }
+.nav-link-item i { font-size: 1.1rem; }
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  background: var(--primary-color);
+  color: #fff;
+}
+
+/* Light sidebar needs dark text on hover/active and a dark brand name */
+[data-sidebar="light"] .sidebar { border-right: 1px solid var(--border-color); }
+[data-sidebar="light"] .sidebar-brand,
+[data-sidebar="light"] .nav-link-item:hover,
+[data-sidebar="light"] .nav-link-item.active { color: var(--primary-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   4. Collapsed sidebar (desktop only)
+   Labels hide, icons stay. Tooltips are added by main.js.
+   -------------------------------------------------------------------------- */
+[data-sidebar-state="collapsed"] .sidebar { width: var(--sidebar-width-collapsed); }
+
+[data-sidebar-state="collapsed"] .sidebar-brand-text,
+[data-sidebar-state="collapsed"] .nav-label,
+[data-sidebar-state="collapsed"] .nav-badge,
+[data-sidebar-state="collapsed"] .nav-heading { display: none; }
+
+[data-sidebar-state="collapsed"] .nav-link-item { justify-content: center; }
+
+
+
+/* --------------------------------------------------------------------------
+   5. Header
+   -------------------------------------------------------------------------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  height: var(--header-height);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1.5rem;
+  z-index: 1030;
+}
+
+[data-header="static"] .app-header { position: static; }
+
+.header-search {
+  max-width: 360px;
+  width: 100%;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted-text);
+  display: grid;
+  place-items: center;
+  transition: background 0.15s ease;
+}
+
+.icon-btn:hover { background: var(--primary-soft); color: var(--primary-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   6. Main content area
+   -------------------------------------------------------------------------- */
+.app-main {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  transition: margin-left 0.25s ease;
+}
+
+[data-sidebar-state="collapsed"] .app-main { margin-left: var(--sidebar-width-collapsed); }
+
+.app-content { padding: 1.5rem; }
+
+/* Boxed layout keeps content centered on very wide screens */
+[data-container="boxed"] .app-content {
+  max-width: var(--boxed-width);
+  margin: 0 auto;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   7. Customizer panel
+   -------------------------------------------------------------------------- */
+.setting-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted-text);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--card-bg);
+  box-shadow: 0 0 0 1px var(--border-color);
+  cursor: pointer;
+}
+
+.swatch:hover { transform: scale(1.1); }
+
+
+
+/* --------------------------------------------------------------------------
+   8. Mobile and tablet (below 992px)
+   The sidebar becomes an off-screen drawer and the page uses full width.
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+
+  .sidebar { transform: translateX(-100%); width: var(--sidebar-width) !important; }
+  .sidebar.is-open { transform: translateX(0); }
+
+  .app-main,
+  [data-sidebar-state="collapsed"] .app-main { margin-left: 0; }
+
+  .app-header { padding: 0 1rem; }
+  .app-content { padding: 1rem; }
+
+}
+
+/* Dark overlay behind the open mobile sidebar */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1035;
+  display: none;
+}
+
+.sidebar-overlay.is-open { display: block; }
+
+
+
+/* --------------------------------------------------------------------------
+   9. Sidebar submenus (nested navigation)
+   -------------------------------------------------------------------------- */
+.nav-arrow {
+  margin-left: auto;
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.nav-badge + .nav-arrow { margin-left: 0.5rem; }
+
+/* Bootstrap adds .collapsed when the submenu is closed, so rotate when it is open */
+.has-sub:not(.collapsed) .nav-arrow { transform: rotate(180deg); }
+.has-sub:not(.collapsed) { color: #fff; }
+
+.sub-menu { padding: 0.15rem 0 0.4rem 2.35rem; }
+
+.sub-link {
+  display: block;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: var(--sidebar-text);
+  opacity: 0.8;
+}
+
+.sub-link:hover { background: var(--sidebar-active-bg); color: #fff; opacity: 1; }
+
+[data-sidebar="light"] .has-sub:not(.collapsed),
+[data-sidebar="light"] .sub-link:hover { color: var(--primary-color); }
+
+/* Collapsed sidebar shows icons only, so submenus and arrows are hidden */
+[data-sidebar-state="collapsed"] .sub-menu,
+[data-sidebar-state="collapsed"] .nav-arrow { display: none; }
+
+
+
+/* --------------------------------------------------------------------------
+   10. Header extras
+   -------------------------------------------------------------------------- */
+.header-search { position: relative; }
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted-text);
+}
+
+.search-kbd {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  background: var(--body-bg);
+  color: var(--muted-text);
+  border: 1px solid var(--border-color);
+}
+
+.icon-btn { position: relative; }
+
+.notif-dot {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--danger-color);
+  border: 2px solid var(--header-bg);
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 0;
+  background: transparent;
+  padding: 0.25rem 0.5rem;
+  border-radius: 10px;
+  color: var(--text-color);
+}
+
+.profile-btn:hover { background: var(--primary-soft); }
+
+
+
+/* --------------------------------------------------------------------------
+   11. Dropdown menus
+   Bootstrap dropdowns follow our theme variables, so dark mode just works.
+   -------------------------------------------------------------------------- */
+.dropdown-menu {
+  --bs-dropdown-bg: var(--card-bg);
+  --bs-dropdown-color: var(--text-color);
+  --bs-dropdown-border-color: var(--border-color);
+  --bs-dropdown-link-color: var(--text-color);
+  --bs-dropdown-link-hover-bg: var(--primary-soft);
+  --bs-dropdown-link-hover-color: var(--primary-color);
+  --bs-dropdown-link-active-bg: var(--primary-color);
+  --bs-dropdown-divider-bg: var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  animation: dropdown-in 0.15s ease;
+}
+
+/* Fade only. Do NOT animate transform here: Bootstrap (Popper) positions the menu
+   with its own transform, and animating it makes the menu jump on open. */
+@keyframes dropdown-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.profile-menu { min-width: 230px; }
+
+
+
+/* --------------------------------------------------------------------------
+   12. Mobile fix for a collapsed sidebar
+   If the sidebar was collapsed on desktop, the mobile drawer still shows labels.
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+
+  [data-sidebar-state="collapsed"] .sidebar-brand-text,
+  [data-sidebar-state="collapsed"] .nav-label,
+  [data-sidebar-state="collapsed"] .nav-badge,
+  [data-sidebar-state="collapsed"] .nav-heading,
+  [data-sidebar-state="collapsed"] .nav-arrow { display: revert; }
+
+  [data-sidebar-state="collapsed"] .sub-menu { display: revert; }
+  [data-sidebar-state="collapsed"] .nav-link-item { justify-content: flex-start; }
+
+}
+
+
+
+/* --------------------------------------------------------------------------
+   13. Static sidebar (Customizer > Sidebar > Position > Static)
+   The sidebar scrolls away with the page instead of staying on screen.
+   -------------------------------------------------------------------------- */
+[data-sidebar-position="static"] body { position: relative; }
+[data-sidebar-position="static"] .sidebar { position: absolute; }
+
+/* On mobile the drawer must always stay fixed */
+@media (max-width: 991.98px) {
+  [data-sidebar-position="static"] .sidebar { position: fixed; }
+}
+
+
+
+
+/* --------------------------------------------------------------------------
+   14. No layout shift when a modal or offcanvas opens
+   Bootstrap hides the page scrollbar and adds padding to compensate, but our
+   sticky header does not get that padding, so it jumped sideways. Reserving
+   the scrollbar space up front keeps everything still.
+   -------------------------------------------------------------------------- */
+html { scrollbar-gutter: stable; }
+body { padding-right: 0 !important; }
+
+
+
+/* --------------------------------------------------------------------------
+   15. Logo in the sidebar
+   The global link hover color turned the name and icon dark blue on the dark
+   sidebar. Keep both readable on hover and in every sidebar theme.
+   -------------------------------------------------------------------------- */
+.sidebar-brand-icon { color: #fff; transition: transform 0.2s ease; }
+.sidebar-brand:hover { color: #fff; }
+.sidebar-brand:hover .sidebar-brand-icon { transform: scale(1.06); }
+
+[data-sidebar="light"] .sidebar-brand,
+[data-sidebar="light"] .sidebar-brand:hover { color: var(--text-color); }
+
+/* Primary sidebar has the same color as the icon box, so the box turns translucent */
+[data-sidebar="primary"] .sidebar-brand-icon { background: rgba(255, 255, 255, 0.2); }
+
+
+
+
+/* --------------------------------------------------------------------------
+   16. Active page inside a submenu
+   -------------------------------------------------------------------------- */
+.sub-link.active { background: var(--sidebar-active-bg); color: #fff; opacity: 1; font-weight: 600; }
+[data-sidebar="light"] .sub-link.active { color: var(--primary-color); }
+
+
+
+
+/* ##########################################################################
+   PART 3: COMPONENTS
+   KPI cards, badges, tables, tabs, pagination, dropdowns, toasts, forms helpers
+   (this part used to be components.css)
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Card spacing
+   Uses the density variable so Compact mode tightens every card at once.
+   -------------------------------------------------------------------------- */
+.card-pad { padding: var(--card-padding); }
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-title-row h2 { font-size: 1rem; font-weight: 600; margin: 0; }
+
+
+
+/* --------------------------------------------------------------------------
+   2. KPI cards
+   -------------------------------------------------------------------------- */
+.kpi-card { padding: var(--card-padding); height: 100%; }
+
+.kpi-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  background: var(--primary-soft);
+  color: var(--primary-color);
+}
+
+.kpi-label { color: var(--muted-text); font-size: 0.85rem; margin: 0.9rem 0 0.2rem; }
+.kpi-value { font-size: 1.6rem; font-weight: 700; line-height: 1.2; margin: 0; }
+.kpi-meta  { font-size: 0.8rem; color: var(--muted-text); margin-top: 0.35rem; }
+
+/* Percentage change, green when up and red when down */
+.kpi-change { font-weight: 600; }
+.kpi-change.up   { color: var(--success-color); }
+.kpi-change.down { color: var(--danger-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   3. Status badges
+   Soft tinted background with the strong color for text.
+   -------------------------------------------------------------------------- */
+.status {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-success { background: rgba(22, 163, 74, 0.12);  color: var(--success-color); }
+.status-warning { background: rgba(245, 158, 11, 0.14); color: var(--warning-color); }
+.status-danger  { background: rgba(220, 38, 38, 0.12);  color: var(--danger-color); }
+.status-info    { background: rgba(14, 165, 233, 0.12); color: var(--info-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   4. Data tables
+   -------------------------------------------------------------------------- */
+.data-table { margin: 0; color: var(--text-color); --bs-table-bg: transparent; }
+
+.data-table th {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted-text);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--table-cell-y) 0.75rem;
+}
+
+.data-table td {
+  padding: var(--table-cell-y) 0.75rem;
+  vertical-align: middle;
+  border-color: var(--border-color);
+}
+
+.data-table tbody tr:hover { background: var(--primary-soft); }
+
+
+
+/* --------------------------------------------------------------------------
+   5. Property thumbnail
+   A tinted icon box, so the layout never breaks if an image is missing.
+   When a real photo is used, give it the same .thumb class.
+   -------------------------------------------------------------------------- */
+.thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--primary-soft);
+  color: var(--primary-color);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.cell-main { font-weight: 600; line-height: 1.25; }
+.cell-sub  { font-size: 0.8rem; color: var(--muted-text); }
+
+
+
+/* --------------------------------------------------------------------------
+   6. Activity timeline
+   -------------------------------------------------------------------------- */
+.timeline { list-style: none; margin: 0; padding: 0; }
+
+.timeline li {
+  position: relative;
+  padding: 0 0 1.25rem 1.6rem;
+  border-left: 2px solid var(--border-color);
+  margin-left: 0.4rem;
+}
+
+.timeline li:last-child { padding-bottom: 0; border-left-color: transparent; }
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 2px solid var(--card-bg);
+}
+
+.timeline-time { font-size: 0.78rem; color: var(--muted-text); }
+
+
+
+/* --------------------------------------------------------------------------
+   7. Chart box
+   A fixed height wrapper so charts resize cleanly on every screen.
+   -------------------------------------------------------------------------- */
+.chart-box { position: relative; height: 300px; }
+.chart-box.small { height: 240px; }
+
+
+
+/* --------------------------------------------------------------------------
+   8. Avatar (initials)
+   -------------------------------------------------------------------------- */
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   9. Notification and message dropdown
+   -------------------------------------------------------------------------- */
+.notice-menu { width: 340px; max-width: 92vw; overflow: hidden; }
+
+.notice-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.notice-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.notice-item:hover { background: var(--primary-soft); color: var(--text-color); }
+.notice-item.unread { background: var(--primary-soft); }
+.notice-item .thumb { width: 38px; height: 38px; background: var(--card-bg); }
+
+.notice-foot { display: block; text-align: center; padding: 0.7rem; font-weight: 600; font-size: 0.875rem; }
+
+
+
+/* --------------------------------------------------------------------------
+   10. Mini stat box (small numbers inside cards)
+   -------------------------------------------------------------------------- */
+.mini-stat {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  line-height: 1.3;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   11. Progress bars (occupancy)
+   -------------------------------------------------------------------------- */
+.progress { height: 6px; min-width: 70px; background: var(--border-color); border-radius: 20px; }
+.progress-bar { background: var(--primary-color); border-radius: 20px; }
+
+
+
+/* --------------------------------------------------------------------------
+   12. Table extras: search box, sortable headers, profit text
+   -------------------------------------------------------------------------- */
+.table-search { max-width: 220px; }
+
+.sortable { cursor: pointer; user-select: none; }
+.sortable:hover { color: var(--primary-color); }
+.sortable[data-dir="asc"]::after  { content: " \2191"; }
+.sortable[data-dir="desc"]::after { content: " \2193"; }
+
+.text-profit { color: var(--success-color); font-weight: 600; }
+
+
+
+/* --------------------------------------------------------------------------
+   13. Toasts
+   The colored left edge shows the type (success, error, warning, info).
+   -------------------------------------------------------------------------- */
+.toast {
+  --bs-toast-bg: var(--card-bg);
+  --bs-toast-color: var(--text-color);
+  --bs-toast-border-color: var(--border-color);
+  --bs-toast-border-radius: var(--border-radius);
+  border-left: 4px solid var(--info-color);
+  box-shadow: var(--shadow-md);
+}
+
+.toast-success { border-left-color: var(--success-color); }
+.toast-error   { border-left-color: var(--danger-color); }
+.toast-warning { border-left-color: var(--warning-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   14. Modals and the global search palette
+   -------------------------------------------------------------------------- */
+.modal-content {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.palette-dialog { margin-top: 10vh; max-width: 620px; }
+
+.palette-input {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.palette-input input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.palette-input kbd { background: var(--body-bg); color: var(--muted-text); border: 1px solid var(--border-color); }
+
+.palette-list { max-height: 380px; overflow-y: auto; padding: 0.5rem; }
+
+.palette-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-color);
+  text-align: left;
+}
+
+.palette-item:hover,
+.palette-item:focus-visible { background: var(--primary-soft); color: var(--text-color); }
+
+.palette-type { margin-left: auto; font-size: 0.75rem; color: var(--muted-text); }
+
+.palette-empty { text-align: center; padding: 2.5rem 1rem; color: var(--muted-text); }
+
+
+
+/* --------------------------------------------------------------------------
+   15. Footer
+   -------------------------------------------------------------------------- */
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--muted-text);
+  font-size: 0.85rem;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   16. Table cells stay on one line, long tables scroll sideways on small screens
+   -------------------------------------------------------------------------- */
+.data-table td { white-space: nowrap; }
+
+
+
+/* --------------------------------------------------------------------------
+   17. Page heading row and date chip
+   -------------------------------------------------------------------------- */
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.date-chip {
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: var(--card-bg);
+  color: var(--muted-text);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.date-chip i { color: var(--primary-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   18. Quick action tiles
+   Each tile sets two variables (--qa and --qa-soft), the rest is shared.
+   Phones: one scrolling row. Tablets and laptops: 3 columns. Wide screens: 6.
+   -------------------------------------------------------------------------- */
+.quick-actions {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.25rem 0.5rem;
+  margin: 0 -0.25rem;
+  scroll-snap-type: x proximity;
+}
+
+.qa-tile {
+  --qa: var(--primary-color);
+  --qa-soft: var(--primary-soft);
+
+  flex: 0 0 240px;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-color);
+  box-shadow: var(--shadow-sm);
+  scroll-snap-align: start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.qa-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--qa);
+  color: var(--text-color);
+}
+
+.qa-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+  background: var(--qa-soft);
+  color: var(--qa);
+}
+
+.qa-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+.qa-title { font-weight: 600; font-size: 0.9rem; }
+.qa-sub { font-size: 0.78rem; color: var(--muted-text); }
+
+.qa-arrow {
+  margin-left: auto;
+  color: var(--muted-text);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.qa-tile:hover .qa-arrow { opacity: 1; transform: translateX(0); color: var(--qa); }
+
+/* Colors per tile */
+.qa-success { --qa: var(--success-color); --qa-soft: rgba(22, 163, 74, 0.12); }
+.qa-info    { --qa: var(--info-color);    --qa-soft: rgba(14, 165, 233, 0.12); }
+.qa-warning { --qa: var(--warning-color); --qa-soft: rgba(245, 158, 11, 0.14); }
+.qa-danger  { --qa: var(--danger-color);  --qa-soft: rgba(220, 38, 38, 0.1); }
+.qa-violet  { --qa: #8b5cf6;              --qa-soft: rgba(139, 92, 246, 0.12); }
+
+/* The first tile is the main call to action, so it is filled with the primary color */
+.qa-featured { background: var(--primary-color); border-color: var(--primary-color); color: #fff; }
+.qa-featured:hover { background: var(--primary-hover); border-color: var(--primary-hover); color: #fff; }
+.qa-featured .qa-icon { background: rgba(255, 255, 255, 0.18); color: #fff; }
+.qa-featured .qa-sub,
+.qa-featured .qa-arrow { color: rgba(255, 255, 255, 0.8); }
+
+/* The hover arrow only makes sense with a mouse, and it steals text width on phones */
+@media (max-width: 767.98px) {
+  .qa-arrow { display: none; }
+  .qa-title { white-space: nowrap; }
+}
+
+@media (min-width: 768px) {
+  .quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; }
+  .qa-tile { flex: none; }
+}
+
+@media (min-width: 1600px) {
+  .quick-actions { grid-template-columns: repeat(6, 1fr); }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   19. Filter pills
+   -------------------------------------------------------------------------- */
+.pill-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.pill {
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--muted-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.pill:hover { color: var(--primary-color); border-color: var(--primary-color); }
+.pill.active { background: var(--primary-color); border-color: var(--primary-color); color: #fff; }
+
+
+
+/* --------------------------------------------------------------------------
+   20. Activity feed
+   Each row has a colored icon, the update, and the time (plus an amount for
+   payments). Two columns on laptops and up, one column on smaller screens.
+   -------------------------------------------------------------------------- */
+.feed-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.feed { list-style: none; margin: 0; padding: 0; }
+
+.feed-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 12px;
+  transition: background 0.15s ease;
+}
+
+.feed-item:hover { background: var(--body-bg); }
+
+.feed-icon {
+  --fc: var(--primary-color);
+  --fc-soft: var(--primary-soft);
+
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  background: var(--fc-soft);
+  color: var(--fc);
+}
+
+.feed-success { --fc: var(--success-color); --fc-soft: rgba(22, 163, 74, 0.12); }
+.feed-info    { --fc: var(--info-color);    --fc-soft: rgba(14, 165, 233, 0.12); }
+.feed-warning { --fc: var(--warning-color); --fc-soft: rgba(245, 158, 11, 0.14); }
+.feed-violet  { --fc: #8b5cf6;              --fc-soft: rgba(139, 92, 246, 0.12); }
+
+.feed-body { flex: 1; min-width: 0; }
+.feed-title { font-weight: 600; line-height: 1.3; }
+.feed-text { font-size: 0.85rem; color: var(--muted-text); }
+.feed-text strong { color: var(--text-color); font-weight: 600; }
+
+.feed-meta { text-align: right; flex-shrink: 0; }
+.feed-time { display: block; font-size: 0.78rem; color: var(--muted-text); white-space: nowrap; }
+.feed-amount { display: block; font-weight: 700; font-size: 0.9rem; color: var(--success-color); }
+
+@media (min-width: 992px) {
+  .feed-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.5rem; }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   21. Activity feed on phones
+   The time moves under the text so the update gets the full row width.
+   -------------------------------------------------------------------------- */
+@media (max-width: 575.98px) {
+
+  .feed-item { flex-wrap: wrap; row-gap: 0.15rem; }
+  .feed-body { flex-basis: calc(100% - 60px); }
+
+  .feed-meta {
+    flex-basis: 100%;
+    padding-left: calc(42px + 0.9rem);
+    text-align: left;
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+
+}
+
+
+
+/* --------------------------------------------------------------------------
+   22. Country flags (language switcher)
+   Round flags from assets/images/flags. To add a language, drop a square SVG
+   in that folder and add one .flag-xx line below.
+   -------------------------------------------------------------------------- */
+.flag {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 0 1px var(--border-color);
+  flex-shrink: 0;
+}
+
+.flag-us { background-image: url("../images/flags/us.svg"); }
+.flag-es { background-image: url("../images/flags/es.svg"); }
+.flag-fr { background-image: url("../images/flags/fr.svg"); }
+.flag-de { background-image: url("../images/flags/de.svg"); }
+
+
+
+/* --------------------------------------------------------------------------
+   23. Linked table names (property name in tables)
+   -------------------------------------------------------------------------- */
+a.cell-main { color: var(--text-color); }
+a.cell-main:hover { color: var(--primary-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   24. Rich dropdown menus (Quick add, Language)
+   Icon box + title + short description, same look as the quick action tiles.
+   -------------------------------------------------------------------------- */
+.menu-rich { min-width: 300px; padding: 0.5rem; }
+.lang-menu { min-width: 250px; }
+
+.menu-label {
+  padding: 0.4rem 0.75rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-text);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+}
+
+/* Keep the text color steady on hover, only the background changes */
+.menu-item:hover,
+.menu-item:focus { background: var(--body-bg); color: var(--text-color); }
+
+.menu-icon {
+  --mc: var(--primary-color);
+  --mc-soft: var(--primary-soft);
+
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  background: var(--mc-soft);
+  color: var(--mc);
+  transition: transform 0.15s ease;
+}
+
+.menu-item:hover .menu-icon { transform: scale(1.08); }
+
+.mi-success { --mc: var(--success-color); --mc-soft: rgba(22, 163, 74, 0.12); }
+.mi-info    { --mc: var(--info-color);    --mc-soft: rgba(14, 165, 233, 0.12); }
+.mi-warning { --mc: var(--warning-color); --mc-soft: rgba(245, 158, 11, 0.14); }
+.mi-danger  { --mc: var(--danger-color);  --mc-soft: rgba(220, 38, 38, 0.1); }
+.mi-violet  { --mc: #8b5cf6;              --mc-soft: rgba(139, 92, 246, 0.12); }
+
+.menu-text { display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
+.menu-title { font-weight: 600; font-size: 0.9rem; }
+.menu-sub { font-size: 0.78rem; font-weight: 400; color: var(--muted-text); }
+
+/* Chosen language: soft highlight and a check mark (overrides Bootstrap's solid blue) */
+.dropdown-menu .menu-item.active,
+.dropdown-menu .menu-item:active { background: var(--primary-soft); color: var(--text-color); }
+
+.menu-check { display: none; margin-left: auto; font-size: 1.1rem; color: var(--primary-color); }
+.menu-item.active .menu-check { display: block; }
+
+.flag-lg { width: 32px; height: 32px; }
+
+
+
+/* --------------------------------------------------------------------------
+   25. Sidebar toggle button
+   A visible box, so it is clear that it can be clicked.
+   -------------------------------------------------------------------------- */
+.toggle-btn {
+  background: var(--body-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.toggle-btn:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+
+
+
+/* --------------------------------------------------------------------------
+   26. Breadcrumb
+   -------------------------------------------------------------------------- */
+.breadcrumb {
+  --bs-breadcrumb-divider-color: var(--muted-text);
+  --bs-breadcrumb-item-active-color: var(--muted-text);
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   27. Pagination
+   -------------------------------------------------------------------------- */
+.pagination {
+  --bs-pagination-color: var(--text-color);
+  --bs-pagination-bg: var(--card-bg);
+  --bs-pagination-border-color: var(--border-color);
+  --bs-pagination-hover-bg: var(--primary-soft);
+  --bs-pagination-hover-color: var(--primary-color);
+  --bs-pagination-hover-border-color: var(--border-color);
+  --bs-pagination-focus-color: var(--primary-color);
+  --bs-pagination-active-bg: var(--primary-color);
+  --bs-pagination-active-border-color: var(--primary-color);
+  --bs-pagination-disabled-bg: var(--card-bg);
+  --bs-pagination-disabled-color: var(--muted-text);
+  --bs-pagination-disabled-border-color: var(--border-color);
+  --bs-pagination-border-radius: 8px;
+  gap: 0.25rem;
+}
+
+.pagination .page-link { border-radius: 8px; }
+
+
+
+/* --------------------------------------------------------------------------
+   28. Empty state (no results, no data)
+   -------------------------------------------------------------------------- */
+.empty-state { text-align: center; padding: 3.5rem 1.5rem; }
+
+.empty-state .empty-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.9rem;
+  background: var(--primary-soft);
+  color: var(--primary-color);
+}
+
+.empty-state h2 { font-size: 1.1rem; font-weight: 600; }
+.empty-state p { color: var(--muted-text); max-width: 380px; margin: 0 auto 1.25rem; }
+
+
+
+/* --------------------------------------------------------------------------
+   29. Small avatar and a muted status
+   -------------------------------------------------------------------------- */
+.avatar.sm { width: 28px; height: 28px; font-size: 0.65rem; }
+
+.status-muted { background: rgba(107, 114, 128, 0.14); color: var(--muted-text); }
+
+
+
+/* --------------------------------------------------------------------------
+   30. Phone fixes for page headings and filter pills
+   Buttons keep their text on one line, and the status pills become one
+   sideways-scrolling row instead of three stacked rows.
+   -------------------------------------------------------------------------- */
+.page-head .btn { white-space: nowrap; }
+
+@media (max-width: 767.98px) {
+  .pill-scroll { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.25rem; }
+  .pill-scroll .pill { white-space: nowrap; }
+}
+
+
+
+
+/* --------------------------------------------------------------------------
+   31. Tabs (underline style)
+   -------------------------------------------------------------------------- */
+.nav-tabs {
+  --bs-nav-tabs-border-color: var(--border-color);
+  --bs-nav-link-color: var(--muted-text);
+  --bs-nav-link-hover-color: var(--primary-color);
+  --bs-nav-tabs-link-hover-border-color: transparent;
+  --bs-nav-tabs-link-active-color: var(--primary-color);
+  --bs-nav-tabs-link-active-bg: transparent;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.nav-tabs .nav-link { white-space: nowrap; font-weight: 600; border-width: 0 0 2px; border-radius: 0; }
+.nav-tabs .nav-link.active { border-color: transparent transparent var(--primary-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   32. Table toolbar and footer (used with the tables part of main.js)
+   -------------------------------------------------------------------------- */
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: var(--card-padding) var(--card-padding) 0.9rem;
+}
+
+.table-toolbar .search-box { position: relative; flex: 1 1 220px; max-width: 320px; }
+
+.table-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.9rem var(--card-padding);
+  border-top: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  color: var(--muted-text);
+}
+
+.check-col { width: 44px; }
+.data-table tbody tr.is-selected { background: var(--primary-soft); }
+
+
+
+/* --------------------------------------------------------------------------
+   33. Key / value list
+   -------------------------------------------------------------------------- */
+.info-list { list-style: none; margin: 0; padding: 0; }
+
+.info-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 0.9rem;
+}
+
+.info-list li:last-child { border-bottom: 0; }
+.info-list span { color: var(--muted-text); }
+.info-list strong { font-weight: 600; text-align: right; }
+
+
+
+/* --------------------------------------------------------------------------
+   34. Small helper
+   -------------------------------------------------------------------------- */
+.min-w-0 { min-width: 0; }
+
+
+
+
+/* ##########################################################################
+   PART 4: PROPERTY PAGES
+   property cards, detail pages, galleries, forms, catalog cards
+   (this part used to be property.css)
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Filter panel and toolbar
+   -------------------------------------------------------------------------- */
+.filter-label { font-size: 0.75rem; font-weight: 600; color: var(--muted-text); margin-bottom: 0.3rem; }
+
+.filter-count {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 20px;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 0.7rem;
+  display: inline-grid;
+  place-items: center;
+}
+
+.view-toggle .btn {
+  --bs-btn-color: var(--muted-text);
+  --bs-btn-border-color: var(--border-color);
+  --bs-btn-hover-bg: var(--primary-soft);
+  --bs-btn-hover-color: var(--primary-color);
+  --bs-btn-hover-border-color: var(--border-color);
+  --bs-btn-active-bg: var(--primary-color);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-border-color: var(--primary-color);
+}
+
+
+
+/* --------------------------------------------------------------------------
+   2. Property card (grid view)
+   The card does not use overflow:hidden, so the action dropdown can open
+   past its edge. The image has its own rounded corners instead.
+   -------------------------------------------------------------------------- */
+.prop-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.prop-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); z-index: 2; }
+
+/* Keep a card with an open dropdown above its neighbours */
+.prop-card:has(.dropdown-menu.show) { z-index: 10; }
+
+
+
+/* --------------------------------------------------------------------------
+   3. Property image
+   If the photo fails to load, the script removes the <img> and the soft
+   background with its icon shows instead, so the layout never breaks.
+   -------------------------------------------------------------------------- */
+.prop-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--primary-soft);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.prop-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.prop-card:hover .prop-media img { transform: scale(1.05); }
+
+.prop-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  opacity: 0.5;
+}
+
+.prop-status { position: absolute; top: 0.75rem; left: 0.75rem; background-color: rgba(255, 255, 255, 0.94); box-shadow: var(--shadow-sm); }
+
+.prop-type {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  background: rgba(17, 24, 39, 0.72);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.prop-fav {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #4b5563;
+  display: grid;
+  place-items: center;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.prop-fav:hover { transform: scale(1.1); color: var(--danger-color); }
+.prop-fav.is-fav { color: var(--danger-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   4. Property card text
+   -------------------------------------------------------------------------- */
+.prop-body { padding: 1rem 1.1rem 0.75rem; flex: 1; }
+
+.prop-price { font-size: 1.25rem; font-weight: 700; color: var(--primary-color); line-height: 1.2; }
+.prop-price small { font-size: 0.78rem; font-weight: 500; color: var(--muted-text); }
+
+.prop-name { font-size: 1rem; font-weight: 600; margin: 0.35rem 0 0.2rem; }
+.prop-name a { color: var(--text-color); }
+.prop-name a:hover { color: var(--primary-color); }
+
+.prop-loc { font-size: 0.82rem; color: var(--muted-text); }
+
+.prop-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0.75rem 0 0;
+  border-top: 1px dashed var(--border-color);
+  font-size: 0.82rem;
+}
+
+.prop-stats i { color: var(--primary-color); margin-right: 0.35rem; }
+
+.prop-occ { display: none; margin-top: 0.75rem; font-size: 0.78rem; color: var(--muted-text); }
+
+.prop-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.1rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.82rem;
+}
+
+.prop-foot .prop-agent { flex: 1; min-width: 0; }
+.prop-foot .prop-agent span { color: var(--muted-text); }
+
+
+
+/* --------------------------------------------------------------------------
+   5. List view
+   Same markup as the grid, the card just turns sideways on tablets and up.
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+
+  .is-list .prop-card { flex-direction: row; }
+
+  .is-list .prop-media {
+    width: 280px;
+    aspect-ratio: auto;
+    min-height: 190px;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+  }
+
+  .is-list .prop-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .is-list .prop-occ { display: block; }
+  .is-list .prop-foot { margin-top: auto; }
+
+}
+
+
+
+/* --------------------------------------------------------------------------
+   6. Card text column
+   Grid view: image on top, this column below. List view: image on the left.
+   -------------------------------------------------------------------------- */
+.prop-main { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+
+
+
+/* --------------------------------------------------------------------------
+   7. Detail page header, price and gallery
+   -------------------------------------------------------------------------- */
+.detail-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; }
+.detail-price { font-size: 1.75rem; font-weight: 700; color: var(--primary-color); line-height: 1.1; }
+.detail-price small { font-size: 0.9rem; font-weight: 500; color: var(--muted-text); }
+
+.gallery-main {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background: var(--primary-soft);
+  cursor: zoom-in;
+}
+
+.gallery-main img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.25s ease; }
+
+.gallery-zoom {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  border: 0;
+  border-radius: 10px;
+  padding: 0.45rem 0.8rem;
+  background: rgba(17, 24, 39, 0.75);
+  color: #fff;
+  font-size: 0.82rem;
+}
+
+.gallery-thumbs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.6rem; margin-top: 0.75rem; }
+
+.gallery-thumb {
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--primary-soft);
+  opacity: 0.7;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+
+.gallery-thumb:hover { opacity: 1; }
+.gallery-thumb.active { border-color: var(--primary-color); opacity: 1; }
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+
+
+/* --------------------------------------------------------------------------
+   8. Overview boxes, amenity chips, financial numbers
+   -------------------------------------------------------------------------- */
+.overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; }
+
+.overview-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.overview-item i { font-size: 1.35rem; color: var(--primary-color); }
+.overview-item strong { display: block; line-height: 1.2; }
+.overview-item span { font-size: 0.78rem; color: var(--muted-text); }
+
+.amenity-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  background: var(--body-bg);
+  font-size: 0.88rem;
+}
+
+.amenity-chip i { color: var(--primary-color); font-size: 1.05rem; }
+
+.fin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.fin-item { padding: 0.85rem; border-radius: 12px; background: var(--body-bg); }
+.fin-item span { display: block; font-size: 0.78rem; color: var(--muted-text); }
+.fin-item strong { font-size: 1.15rem; }
+.fin-item.good strong { color: var(--success-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   9. Map placeholder (no map API needed)
+   Roads are drawn with gradients, the pin pulses. Swap for a real map later.
+   -------------------------------------------------------------------------- */
+.map-box {
+  position: relative;
+  height: 260px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--body-bg);
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 69px, var(--border-color) 69px 71px),
+    repeating-linear-gradient(90deg, transparent 0 89px, var(--border-color) 89px 91px);
+}
+
+.map-park { position: absolute; border-radius: 14px; background: rgba(22, 163, 74, 0.18); }
+
+.map-pin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -100%);
+  font-size: 2.4rem;
+  color: var(--danger-color);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+.map-label {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  background: var(--card-bg);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   10. Floor and unit overview (building details)
+   -------------------------------------------------------------------------- */
+.floor-row { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem; }
+.floor-label { width: 62px; flex-shrink: 0; font-size: 0.75rem; color: var(--muted-text); }
+
+.unit-tile {
+  flex: 1;
+  min-width: 0;
+  height: 34px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #fff;
+  transition: transform 0.15s ease;
+}
+
+.unit-tile:hover { transform: scale(1.08); color: #fff; }
+
+.u-occupied    { background: var(--success-color); }
+.u-vacant      { background: var(--warning-color); }
+.u-reserved    { background: var(--info-color); }
+.u-maintenance { background: var(--danger-color); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: 0.8rem; color: var(--muted-text); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 0.4rem; }
+
+
+
+/* --------------------------------------------------------------------------
+   11. Gallery manager and lightbox
+   -------------------------------------------------------------------------- */
+.gal-tile {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--primary-soft);
+}
+
+.gal-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.gal-cover {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.gal-bar {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+.gal-bar button { border: 0; background: rgba(255, 255, 255, 0.2); color: #fff; width: 30px; height: 30px; border-radius: 8px; }
+.gal-bar button:hover { background: rgba(255, 255, 255, 0.35); }
+
+.dropzone {
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--muted-text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.dropzone:hover,
+.dropzone.is-over { border-color: var(--primary-color); background: var(--primary-soft); }
+.dropzone i { font-size: 2rem; color: var(--primary-color); display: block; margin-bottom: 0.4rem; }
+
+.lb-stage { position: relative; background: #0b1120; border-radius: var(--border-radius); overflow: hidden; }
+.lb-stage img { display: block; max-width: 100%; max-height: 78vh; margin: 0 auto; }
+
+.lb-nav, .lb-close {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.lb-nav { top: 50%; transform: translateY(-50%); }
+.lb-prev { left: 1rem; }
+.lb-next { right: 1rem; }
+.lb-close { top: 1rem; right: 1rem; }
+.lb-nav:hover, .lb-close:hover { background: rgba(255, 255, 255, 0.3); }
+
+.lb-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   12. Forms (add and edit pages)
+   -------------------------------------------------------------------------- */
+.form-section-title { font-size: 1rem; font-weight: 600; margin: 0; }
+.form-section-desc { font-size: 0.82rem; color: var(--muted-text); margin: 0.15rem 0 1.1rem; }
+
+.form-label { font-size: 0.82rem; font-weight: 600; margin-bottom: 0.35rem; }
+.form-label .req { color: var(--danger-color); }
+
+.check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0.6rem; }
+
+.check-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.check-tile:has(input:checked) { border-color: var(--primary-color); background: var(--primary-soft); }
+
+.preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.6rem; margin-top: 0.75rem; }
+.preview-grid .pv { aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--primary-soft); }
+.preview-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Save bar that stays at the bottom of the screen while the form scrolls */
+.form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin: 1.5rem -1.5rem -1.5rem;
+  padding: 0.9rem 1.5rem;
+  background: var(--header-bg);
+  border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 991.98px) {
+  .form-actions { margin: 1.5rem -1rem -1rem; padding: 0.8rem 1rem; }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   13. Catalog cards (property types and amenities)
+   -------------------------------------------------------------------------- */
+.catalog-card { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.1rem; height: 100%; }
+
+.catalog-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  background: var(--primary-soft);
+  color: var(--primary-color);
+}
+
+.catalog-card h3 { font-size: 0.98rem; font-weight: 600; margin: 0; }
+.catalog-card .cell-sub { margin-top: 0.1rem; }
+.catalog-card.is-off { opacity: 0.6; }
+
+
+
+/* ##########################################################################
+   PART 5: RENTAL PAGES
+   tenant profile header, rent schedule calendar, collection bar, print styles
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Profile header (tenant and lease pages)
+   -------------------------------------------------------------------------- */
+.profile-head { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
+.profile-avatar { width: 84px; height: 84px; font-size: 1.6rem; }
+
+.profile-meta { display: flex; flex-wrap: wrap; gap: 0.35rem 1.5rem; color: var(--muted-text); font-size: 0.88rem; }
+.profile-meta i { color: var(--primary-color); margin-right: 0.35rem; }
+
+
+
+/* --------------------------------------------------------------------------
+   2. Rent schedule calendar (month and week views)
+   -------------------------------------------------------------------------- */
+.cal-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: var(--card-padding) var(--card-padding) 0.9rem;
+}
+
+.cal-title { font-size: 1.1rem; font-weight: 600; margin: 0; min-width: 190px; text-align: center; }
+
+/* Phones: the arrows, title and Today button wrap onto two lines instead of pushing the page wider */
+.cal-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+@media (max-width: 575.98px) { .cal-title { min-width: 0; flex: 1; } }
+
+/* On phones the 7 columns scroll sideways instead of getting squeezed */
+.cal-scroll { overflow-x: auto; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); min-width: 760px; }
+
+.cal-dow {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted-text);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cal-cell {
+  min-height: 112px;
+  padding: 0.4rem;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.78rem;
+}
+
+.cal-cell:nth-child(7n) { border-right: 0; }
+.cal-cell.is-out { background: var(--body-bg); opacity: 0.55; }
+.cal-week .cal-cell { min-height: 280px; }
+
+.cal-day {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 0.25rem;
+  border-radius: 50%;
+  font-weight: 600;
+}
+
+.cal-cell.is-today .cal-day { background: var(--primary-color); color: #fff; }
+
+.cal-chip {
+  display: block;
+  margin-bottom: 0.2rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cal-chip.c-success { background: rgba(22, 163, 74, 0.14);  color: var(--success-color); }
+.cal-chip.c-warning { background: rgba(245, 158, 11, 0.16); color: var(--warning-color); }
+.cal-chip.c-danger  { background: rgba(220, 38, 38, 0.12);  color: var(--danger-color); }
+.cal-chip.c-info    { background: rgba(14, 165, 233, 0.14); color: var(--info-color); }
+.cal-more { font-size: 0.72rem; color: var(--muted-text); }
+
+
+
+/* --------------------------------------------------------------------------
+   3. Collection bar (rent collection page) and verification rows
+   -------------------------------------------------------------------------- */
+.stack-bar { display: flex; height: 12px; border-radius: 20px; overflow: hidden; background: var(--border-color); }
+.stack-bar span { height: 100%; }
+.s-success { background: var(--success-color); }
+.s-warning { background: var(--warning-color); }
+.s-danger  { background: var(--danger-color); }
+.s-info    { background: var(--info-color); }
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.check-row:last-child { border-bottom: 0; }
+.check-row .grow { flex: 1; min-width: 0; }
+
+
+
+/* --------------------------------------------------------------------------
+   4. Print styles
+   Used by "Print lease", "Print statement" and similar buttons: only the page
+   content is printed, without the sidebar, header and buttons.
+   -------------------------------------------------------------------------- */
+@media print {
+
+  .sidebar, .sidebar-overlay, .app-header, .app-footer, .offcanvas, .toast-container,
+  .form-actions, .page-head .btn, .breadcrumb, [data-print], .no-print { display: none !important; }
+
+  .app-main { margin-left: 0 !important; }
+  .app-content { padding: 0 !important; }
+  body { background: #fff !important; }
+  .card { box-shadow: none !important; break-inside: avoid; }
+
+}
+
+
+
+
+/* --------------------------------------------------------------------------
+   5. Message bubbles (tenant and lease conversations)
+   -------------------------------------------------------------------------- */
+.bubble {
+  max-width: 78%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 14px 14px 14px 4px;
+  background: var(--body-bg);
+  font-size: 0.9rem;
+}
+
+.bubble.me { margin-left: auto; border-radius: 14px 14px 4px 14px; background: var(--primary-soft); }
+.bubble small { display: block; margin-top: 0.2rem; color: var(--muted-text); font-size: 0.72rem; }
+
+
+
+/* ##########################################################################
+   PART 6: SALES PAGES
+   deal pipeline board (drag and drop), closing checklist, match bars
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Pipeline board
+   Columns scroll sideways inside the board. Cards can be dragged, or moved
+   with the card menu (works with keyboard and on touch screens).
+   -------------------------------------------------------------------------- */
+.kanban { display: flex; align-items: flex-start; gap: 1rem; overflow-x: auto; padding-bottom: 0.75rem; }
+
+.k-col {
+  flex: 0 0 290px;
+  background: var(--body-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.k-head { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 0.9rem 0.15rem; }
+.k-title { display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; font-weight: 600; }
+.k-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+.k-count {
+  min-width: 24px;
+  padding: 0.1rem 0.5rem;
+  border-radius: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.k-total { padding: 0 0.9rem 0.4rem; font-size: 0.78rem; color: var(--muted-text); }
+
+.k-body { display: flex; flex-direction: column; gap: 0.6rem; min-height: 130px; padding: 0.35rem 0.6rem 0.75rem; border-radius: var(--border-radius); }
+.k-body.is-over { background: var(--primary-soft); }
+
+.k-card {
+  padding: 0.8rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  cursor: grab;
+  transition: box-shadow 0.15s ease;
+}
+
+.k-card:hover { box-shadow: var(--shadow-md); }
+.k-card.dragging { opacity: 0.45; }
+.k-card:active { cursor: grabbing; }
+
+.k-card .icon-btn { width: 30px; height: 30px; flex-shrink: 0; }
+
+.k-meta { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.7rem; font-size: 0.78rem; color: var(--muted-text); }
+
+.dot-info    { background: var(--info-color); }
+.dot-warning { background: var(--warning-color); }
+.dot-danger  { background: var(--danger-color); }
+.dot-success { background: var(--success-color); }
+.dot-violet  { background: #8b5cf6; }
+
+
+
+/* --------------------------------------------------------------------------
+   2. Closing checklist and match bars
+   -------------------------------------------------------------------------- */
+.form-check-input:checked + .form-check-label { text-decoration: line-through; color: var(--muted-text); }
+
+.match-row { display: flex; align-items: center; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--border-color); }
+.match-row:last-child { border-bottom: 0; }
+.match-score { width: 130px; flex-shrink: 0; }
+
+@media (max-width: 575.98px) {
+  .match-row { flex-wrap: wrap; }
+  .match-score { width: 100%; }
+}
+
+
+
+/* ##########################################################################
+   PART 7: LEADS, VIEWINGS AND AGENTS
+   viewing week grid (uses the calendar styles from PART 5) and bar charts
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Viewing week grid
+   Reuses .cal-grid and .cal-chip. This adds a grey chip for finished visits.
+   -------------------------------------------------------------------------- */
+.cal-chip.c-muted { background: rgba(107, 114, 128, 0.14); color: var(--muted-text); }
+.cal-chip small { font-weight: 500; opacity: 0.85; }
+
+
+
+/* --------------------------------------------------------------------------
+   2. Simple bar chart made of plain boxes (no chart library needed)
+   Each .bar-col holds a value label, the bar (height set inline) and a month.
+   -------------------------------------------------------------------------- */
+.bar-chart { display: flex; align-items: flex-end; gap: 0.75rem; height: 220px; padding-top: 1.5rem; }
+
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 0.35rem; height: 100%; }
+.bar-col .bar { width: 100%; max-width: 56px; min-height: 4px; border-radius: 8px 8px 0 0; background: var(--primary-color); opacity: 0.85; transition: opacity 0.15s ease; }
+.bar-col:hover .bar { opacity: 1; }
+.bar-col .bar-value { font-size: 0.75rem; font-weight: 600; }
+.bar-col .bar-label { font-size: 0.75rem; color: var(--muted-text); }
+
+.rating { color: var(--warning-color); white-space: nowrap; }
+.rating span { color: var(--text-color); font-weight: 600; margin-left: 0.25rem; }
+
+
+
+/* ##########################################################################
+   PART 8: MAINTENANCE
+   extra status colors and the inspection checklist
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Extra badge colors (violet for "New" and "Assigned", solid red for Urgent)
+   -------------------------------------------------------------------------- */
+.status-violet { background: rgba(139, 92, 246, 0.14); color: #8b5cf6; }
+.status-urgent { background: var(--danger-color); color: #fff; }
+
+
+
+/* --------------------------------------------------------------------------
+   2. Inspection checklist
+   Each row has an item name and a Pass / Fail / N/A choice. Failed rows get
+   a soft red background so they are easy to spot.
+   -------------------------------------------------------------------------- */
+.insp-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px dashed var(--border-color);
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.insp-row:last-child { border-bottom: 0; }
+.insp-row.is-fail { background: rgba(220, 38, 38, 0.07); }
+.insp-row .cell-sub { margin-top: 0.1rem; }
+
+
+
+/* ##########################################################################
+   PART 9: FINANCE
+   printable documents (invoice, receipt, owner statement) and the line
+   item editor used on the invoice form
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Document sheet
+   One look for every printable paper: invoice, receipt, owner statement.
+   -------------------------------------------------------------------------- */
+.doc {
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.doc-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.doc-brand { display: flex; align-items: center; gap: 0.75rem; font-size: 1.15rem; font-weight: 700; }
+.doc-title { margin: 0; font-size: 1.6rem; font-weight: 700; letter-spacing: 0.08em; color: var(--primary-color); }
+
+.doc-label {
+  margin-bottom: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-text);
+}
+
+.doc-table { margin-bottom: 1rem; --bs-table-bg: transparent; color: var(--text-color); }
+.doc-table th { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted-text); border-bottom: 1px solid var(--border-color); padding: 0.6rem 0.5rem; }
+.doc-table td { padding: 0.75rem 0.5rem; border-color: var(--border-color); }
+
+.doc-totals { max-width: 320px; margin-left: auto; }
+.doc-totals div { display: flex; justify-content: space-between; padding: 0.35rem 0; }
+.doc-totals .grand { margin-top: 0.4rem; padding-top: 0.7rem; border-top: 2px solid var(--text-color); font-size: 1.15rem; font-weight: 700; }
+
+/* Big rotated stamp (PAID, DRAFT...) */
+.doc-stamp {
+  position: absolute;
+  top: 8.5rem;
+  right: 3rem;
+  padding: 0.25rem 1rem;
+  border: 3px solid var(--success-color);
+  border-radius: 8px;
+  color: var(--success-color);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  opacity: 0.55;
+  transform: rotate(-12deg);
+  pointer-events: none;
+}
+
+.doc-stamp.warn { border-color: var(--warning-color); color: var(--warning-color); }
+.doc-stamp.bad  { border-color: var(--danger-color);  color: var(--danger-color); }
+
+.doc-foot { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--muted-text); }
+
+@media (max-width: 575.98px) {
+  .doc { padding: 1.25rem; }
+  .doc-stamp { top: 7rem; right: 1rem; font-size: 1.1rem; }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   2. Print colors
+   Printed papers are always black on white, even when dark mode is on.
+   -------------------------------------------------------------------------- */
+@media print {
+
+  html[data-theme] {
+    --card-bg: #ffffff;
+    --body-bg: #ffffff;
+    --text-color: #111827;
+    --muted-text: #4b5563;
+    --border-color: #d1d5db;
+
+    /* Bootstrap's own dark mode colors (table text and lines) must go back to dark on white too */
+    --bs-body-color: #111827;
+    --bs-emphasis-color: #111827;
+    --bs-border-color: #d1d5db;
+  }
+
+  .doc { max-width: none; padding: 0; border: 0; }
+
+}
+
+
+
+/* ##########################################################################
+   PART 10: COMMUNICATION
+   chat layout, email client, notification center, template chips
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Chat (messages page)
+   Two columns on desktop. On phones the list and the thread take turns.
+   -------------------------------------------------------------------------- */
+.chat-layout { display: grid; grid-template-columns: 340px 1fr; height: calc(100vh - 250px); min-height: 540px; overflow: hidden; }
+.chat-side { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--border-color); }
+.conv-list { flex: 1; overflow-y: auto; }
+
+.conv-item {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 0;
+  border-bottom: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-color);
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.conv-item:hover,
+.conv-item.active { background: var(--primary-soft); }
+
+.chat-main { display: flex; flex-direction: column; min-height: 0; }
+.chat-head { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 1.1rem; border-bottom: 1px solid var(--border-color); }
+.chat-body { flex: 1; display: flex; flex-direction: column; gap: 0.75rem; padding: 1.1rem; overflow-y: auto; }
+.chat-form { display: flex; gap: 0.5rem; padding: 0.9rem 1.1rem; border-top: 1px solid var(--border-color); }
+
+@media (max-width: 991.98px) {
+  .chat-layout { grid-template-columns: 1fr; height: 75vh; }
+  .chat-main { display: none; }
+  .chat-layout.chat-open .chat-side { display: none; }
+  .chat-layout.chat-open .chat-main { display: flex; }
+}
+
+@media (min-width: 992px) { .chat-back { display: none; } }
+
+
+
+/* --------------------------------------------------------------------------
+   2. Email client (folders, list and reading pane)
+   -------------------------------------------------------------------------- */
+.mail-layout { display: grid; grid-template-columns: 200px 340px 1fr; min-height: 580px; overflow: hidden; }
+.mail-folders { padding: 1rem; border-right: 1px solid var(--border-color); }
+.mail-listbox { overflow-y: auto; max-height: 640px; border-right: 1px solid var(--border-color); }
+.mail-pane { padding: 1.5rem; overflow-y: auto; max-height: 640px; }
+
+.folder-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  margin-bottom: 0.15rem;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-color);
+  text-align: left;
+}
+
+.folder-btn:hover { background: var(--body-bg); }
+.folder-btn.active { background: var(--primary-soft); color: var(--primary-color); font-weight: 600; }
+.folder-count { margin-left: auto; font-size: 0.75rem; color: var(--muted-text); }
+
+.mail-item { display: block; width: 100%; padding: 0.85rem 1rem; border: 0; border-bottom: 1px solid var(--border-color); background: transparent; color: var(--text-color); text-align: left; }
+.mail-item:hover,
+.mail-item.active { background: var(--primary-soft); }
+.mail-item.unread .mail-from,
+.mail-item.unread .mail-subject { font-weight: 700; }
+.mail-item.unread { border-left: 3px solid var(--primary-color); }
+.mail-subject { font-size: 0.9rem; }
+.mail-body { line-height: 1.7; }
+
+@media (max-width: 1199.98px) {
+  .mail-layout { grid-template-columns: 170px 1fr; }
+  .mail-pane { display: none; }
+  .mail-layout.mail-open { grid-template-columns: 1fr; }
+  .mail-layout.mail-open .mail-folders,
+  .mail-layout.mail-open .mail-listbox { display: none; }
+  .mail-layout.mail-open .mail-pane { display: block; }
+}
+
+@media (max-width: 575.98px) {
+  .mail-layout { grid-template-columns: 1fr; }
+  .mail-folders { display: flex; gap: 0.25rem; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--border-color); }
+  .mail-folders .btn { display: none; }
+  .folder-btn { width: auto; white-space: nowrap; }
+}
+
+@media (min-width: 1200px) { .mail-back { display: none; } }
+
+
+
+/* --------------------------------------------------------------------------
+   3. Notification center and template variable chips
+   -------------------------------------------------------------------------- */
+.notif-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.15s ease; }
+.notif-item:last-child { border-bottom: 0; }
+.notif-item:hover { background: var(--body-bg); }
+.notif-item.unread { background: var(--primary-soft); }
+.notif-item.unread .notif-title::after { content: ""; display: inline-block; width: 8px; height: 8px; margin-left: 0.5rem; border-radius: 50%; background: var(--primary-color); }
+.notif-title { font-weight: 600; }
+
+.var-chip {
+  padding: 0.2rem 0.6rem;
+  border: 1px dashed var(--primary-color);
+  border-radius: 20px;
+  background: var(--primary-soft);
+  color: var(--primary-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.template-preview { padding: 1rem; border-radius: 10px; background: var(--body-bg); font-size: 0.9rem; min-height: 120px; }
+
+
+
+/* ##########################################################################
+   PART 11: SETTINGS AND SYSTEM PAGES
+   login pages, error pages, loading skeletons, permission matrix, tag editor,
+   integration cards, event calendar colors and the documentation layout
+   ########################################################################## */
+
+
+
+/* --------------------------------------------------------------------------
+   1. Login pages (login, register, forgot password, 2FA, lock screen)
+   A picture panel on the left, the form on the right. Phones show the form only.
+   -------------------------------------------------------------------------- */
+.auth-page { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 100vh; background: var(--body-bg); }
+
+.auth-aside {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(145deg, var(--primary-color), #0b1120 85%);
+}
+
+.auth-aside img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.16; }
+.auth-aside > * { position: relative; }
+.auth-aside h2 { font-size: 2rem; font-weight: 700; line-height: 1.25; }
+.auth-stat { padding: 0.9rem 1.1rem; border-radius: 12px; background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(6px); }
+
+.auth-main { display: grid; place-items: center; padding: 2rem 1.25rem; }
+.auth-card { width: 100%; max-width: 430px; }
+
+@media (max-width: 991.98px) {
+  .auth-page { grid-template-columns: 1fr; }
+  .auth-aside { display: none; }
+}
+
+.pw-wrap { position: relative; }
+.pw-wrap .form-control { padding-right: 3rem; }
+.pw-toggle { position: absolute; right: 0.35rem; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; color: var(--muted-text); }
+.pw-toggle:hover { color: var(--primary-color); }
+
+.divider-text { display: flex; align-items: center; gap: 0.75rem; margin: 1.25rem 0; color: var(--muted-text); font-size: 0.82rem; }
+.divider-text::before, .divider-text::after { content: ""; flex: 1; height: 1px; background: var(--border-color); }
+
+.otp-row { display: flex; justify-content: space-between; gap: 0.5rem; }
+.otp-input { width: 100%; max-width: 54px; height: 60px; padding: 0; text-align: center; font-size: 1.5rem; font-weight: 700; }
+
+
+
+/* --------------------------------------------------------------------------
+   2. Error pages (404, 500, offline, permission denied)
+   -------------------------------------------------------------------------- */
+.err-wrap { display: grid; place-items: center; min-height: 100vh; padding: 2rem 1.25rem; text-align: center; background: var(--body-bg); }
+.err-card { width: 100%; max-width: 520px; }
+.err-code { font-size: 7rem; font-weight: 800; line-height: 1; color: var(--primary-color); letter-spacing: -0.03em; }
+.err-icon { width: 96px; height: 96px; margin: 0 auto 1.25rem; border-radius: 50%; display: grid; place-items: center; font-size: 2.6rem; background: var(--primary-soft); color: var(--primary-color); }
+
+
+
+/* --------------------------------------------------------------------------
+   3. Loading skeletons
+   Grey shapes with a moving shine, shown while real content loads.
+   -------------------------------------------------------------------------- */
+.skeleton { position: relative; overflow: hidden; border-radius: 8px; background: var(--border-color); }
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .skeleton::after { animation: none; } }
+
+.sk-line { height: 12px; margin-bottom: 0.6rem; }
+.sk-title { height: 18px; width: 60%; margin-bottom: 0.8rem; }
+.sk-img { aspect-ratio: 4 / 3; border-radius: 12px; }
+.sk-avatar { width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0; }
+
+
+
+/* --------------------------------------------------------------------------
+   4. Permission matrix, tag editor and integration cards (settings)
+   -------------------------------------------------------------------------- */
+.perm-table th, .perm-table td { text-align: center; }
+.perm-table th:first-child, .perm-table td:first-child { text-align: left; }
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.35rem 0.3rem 0.8rem;
+  border-radius: 20px;
+  background: var(--primary-soft);
+  color: var(--primary-color);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tag button { display: grid; place-items: center; width: 22px; height: 22px; border: 0; border-radius: 50%; background: transparent; color: inherit; }
+.tag button:hover { background: var(--primary-color); color: #fff; }
+
+.int-card { display: flex; flex-direction: column; gap: 0.75rem; height: 100%; padding: 1.25rem; }
+.int-logo { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; font-size: 1.5rem; background: var(--primary-soft); color: var(--primary-color); flex-shrink: 0; }
+
+
+
+/* --------------------------------------------------------------------------
+   5. Event calendar colors (calendar page)
+   -------------------------------------------------------------------------- */
+button.cal-chip { width: 100%; border: 0; text-align: left; }
+.cal-chip.c-violet  { background: rgba(139, 92, 246, 0.14); color: #8b5cf6; }
+.cal-chip.c-primary { background: var(--primary-soft); color: var(--primary-color); }
+.cal-chip:hover { filter: brightness(0.96); }
+
+.day-event { display: flex; gap: 1rem; align-items: center; padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--border-color); }
+.day-event:last-child { border-bottom: 0; }
+.day-time { width: 84px; flex-shrink: 0; font-weight: 600; }
+
+
+
+/* --------------------------------------------------------------------------
+   6. Documentation layout
+   A sticky menu on the left, readable text on the right.
+   -------------------------------------------------------------------------- */
+.docs-wrap { display: grid; grid-template-columns: 270px minmax(0, 1fr); min-height: 100vh; background: var(--body-bg); }
+.docs-nav { position: sticky; top: 0; height: 100vh; padding: 1.5rem 1rem; overflow-y: auto; background: var(--card-bg); border-right: 1px solid var(--border-color); }
+.docs-nav a { display: block; padding: 0.4rem 0.75rem; border-radius: 8px; color: var(--muted-text); font-size: 0.9rem; }
+.docs-nav a:hover { background: var(--primary-soft); color: var(--primary-color); }
+.docs-content { max-width: 880px; padding: 2.5rem 2rem 5rem; }
+.docs-section { margin-bottom: 3rem; scroll-margin-top: 1.5rem; }
+.docs-section h2 { margin-bottom: 1rem; padding-bottom: 0.6rem; font-size: 1.4rem; border-bottom: 1px solid var(--border-color); }
+.docs-section h3 { margin: 1.5rem 0 0.6rem; font-size: 1.05rem; }
+.docs-content code { padding: 0.1rem 0.4rem; border-radius: 6px; background: var(--primary-soft); color: var(--primary-color); font-size: 0.85em; }
+.docs-content pre { padding: 1rem 1.25rem; overflow-x: auto; border: 1px solid var(--border-color); border-radius: 10px; background: var(--card-bg); font-size: 0.85rem; }
+.docs-content pre code { padding: 0; background: transparent; color: var(--text-color); }
+
+@media (max-width: 991.98px) {
+  .docs-wrap { grid-template-columns: minmax(0, 1fr); }
+  .docs-nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border-color); }
+  .docs-content { padding: 1.5rem 1rem 3rem; }
+}
+
